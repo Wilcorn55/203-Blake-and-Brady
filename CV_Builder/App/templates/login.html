@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title> CVMe CV Builder </title>
+
+    <link  rel="stylesheet" href="{% static './style.css' %}">
+
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+
+<div id="javascript_header"> </div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form__header">
+        <h1> Login </h1>
+        <p> Enter you login details below. </p>
+
+        {% csrf_token %}
+
+        <ul class="messages">
+
+            {% for message in messages %}
+
+            <li {% if message.tags %} class ="{{ message.tags }}" {% endif %} style="color:red;">
+            </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="form-group">
+        <label for="username">
+            Username
+        </label>
+        <input id="username" name="username" type="text"/>
+        <div class="error" id="name_error"></div>
+    </div>
+
+     <div class="form-group">
+        <label for="password">
+            Password
+        </label>
+        <input id="password" name="password" type="password"/>
+    </div>
+    <div class="line-break"></div>
+
+    <input id="login" type="submit" value="Login"/>
+
+    Don't have an account?
+    <a href="register">
+        Sign Up
+    </a>
+</form>
+
+<!-- partial -->
+
+<script src="{% static './script.js' %}"></script>
+
+</body>
+
+</html>
