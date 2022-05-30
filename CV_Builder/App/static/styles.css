@@ -1,2 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+
+.header {
+overflow: hidden;
+background-color:71DFFF;
+padding 20px 10px;
+}
+
+. header a {
+float: right;
+colour: black;
+text-align: center;
+
+
+
+}
