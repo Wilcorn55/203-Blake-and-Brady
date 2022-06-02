@@ -8,9 +8,49 @@
     <meta charset="UTF-8">
     <title> CVMe CV Builder Register</title>
 
+    <link  rel="stylesheet" href="{% static './style.css' %}">
 
 </head>
 <body>
+<!-- partial:index.partial.html -->
+<form method="post">
+    {% csrf_token %}
+    <div class="form_header">
+        <h1> Register </h1>
+        <p> Enter your login details below </p>
+    </div>
 
+
+    <div  class="form-group">
+        <label for="username">
+            Username
+        </label>
+        <input id="username" name="username" type="text"/>
+        <div class="error" id="name_error"> </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">
+            Email
+        </label>
+        <input id="email" name="email" type="email"/>
+        <div class="error" id="name__error"> </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password">
+            Password
+        </label>
+        <input id="password" name="password" type="password"/>
+    </div>
+
+    <input id="register" type="submit" value="Register"/>
+    Already have and account? <a href="login">Sign In</a>
+
+</form>
+
+<!-- partial -->
+
+<script src="{% static '.scripts.js %}"></script>
 </body>
 </html>
