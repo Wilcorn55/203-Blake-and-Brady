@@ -14,5 +14,7 @@ urlpatterns = [
     path("index", views.index, name="index"),
     path("create-cv", views.create_cv, name="create-cv"),
     path("cv", views.cv, name="cv"),
+    path("update-cv", views.update_cv, name="update-cv"),
+    path("gen-qr", views.gen_qr, name="gen-qr")
 
 ]

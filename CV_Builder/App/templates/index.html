@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Builder</title>
+    <link rel="stylesheet" href="{% static './style.css' %}">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<form>
+    {% csrf_token %}
+    <div class="form_header">
+        <h1> Dashboard </h1>
+        <p> Build or View your CV </p>
+    </div>
+
+    <a class="button" href="create-cv"> Create CV </a>
+    <div class="line-break"></div>
+    <a class="button" href="cv"> View CV </a>
+    <div class="line-break"></div>
+    <a class="button" href="update-cv"> Update CV </a>
+    <div class="line-break"></div>
+    <a class="button" href="gen-qr"> Generate QR Code </a>
+
+</form>
+
+<!-- partial -->
+
+<script src="{% static '.scripts.js %}"></script>
+</body>
+</html>
