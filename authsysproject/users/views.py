@@ -38,7 +38,8 @@ def profile(request):
 
 
 
-def create_CV(request):
+
+def createcv(request):
     if request.method == "POST":
         username = request.session["user"]["username"]
         full_name = request.POST.get("name")
@@ -110,10 +111,10 @@ def create_CV(request):
                                          }))
             messages.add_message(request, messages.INFO, 'CV Successfully Saved. View CV Now')
             return redirect()  #Link to CV Page Here
-        else:
+    else:
             try:
                 CV_info = client.query(q.get(q.match(q.index("CV_index"), request.session["user"]["username"])))["data"]
                 context={"CV_info":CV_info}
-                return render(request,"create-CV.html",context)
+                return render(request,"createcv.html",context)
             except:
-                return render(request,"create-CV.html")
+                return render(request,"createcv.html")
