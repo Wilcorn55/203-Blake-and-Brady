@@ -18,18 +18,51 @@ def home(request):
     return render(request, 'users/home.html')
 
 
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get("username").strip().lower()
+        password = request.POST.get("password")
+
+        try:
+            user = client.query(q.get(q.match(q.index("users_index"), username)))
+            if hashlib.sha512(password.encode()).hexdigest() == user["data"]["password"]:
+                request.session["user"] = {
+                    "id": user["ref"].id(),
+                    "username": user["data"]["username"]
+                }
+                return redirect("users/home.html")
+            else:
+                raise Exception()
+        except:
+            messages.add_message(request, messages.INFO,"You have supplied an invalid login, please try again!", "danger")
+            return redirect("login")
+    return render(request, "users/login.html")
+
+
 def register(request):
     if request.method == "POST":
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Hello! {username}, your account has been created successfully')
-            return redirect('home')
-    else:
-        form = UserRegisterForm()
+        username = request.POST.get("username").strip().lower()
+        email = request.POST.get("email").strip().lower()
+        password = request.POST.get("password")
 
-    return render(request, 'users/register.html', {'form': form})
+        try:
+            user = client.query(q.get(q.match(q.index("users_index"), username)))
+            messages.add_message(request, messages.INFO, "User already exists with that username.")
+            return redirect("users/register.html")
+        except:
+            user = client.query(q.create(q.collection("Users"), {
+                "data": {
+                    "username": username,
+                    "email": email,
+                    "password": hashlib.sha512(password.encode()).hexdigest(),
+                    "date": datetime.datetime.now(pytz.UTC)
+                }
+            }))
+            messages.add_message(request, messages.INFO, "Registration successful.")
+            return redirect("users/login.html")
+    return render(request, "register.html")
+
+
 
 
 @login_required()
@@ -115,6 +148,6 @@ def createcv(request):
             try:
                 CV_info = client.query(q.get(q.match(q.index("CV_index"), request.session["user"]["username"])))["data"]
                 context={"CV_info":CV_info}
-                return render(request,"createcv.html",context)
+                return render(request,"users/createCV.html",context)
             except:
-                return render(request,"createcv.html")
+                return render(request,"users/createCV.html")
