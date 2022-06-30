@@ -10,7 +10,13 @@ from faunadb.client import FaunaClient
 import hashlib
 import datetime
 
-client = FaunaClient(secret="fnAEnqvWm6ACU1hu8c8rIhsZDvTfg94om1Ecwz9P")
+
+client = FaunaClient(
+  secret="fnAEnqvWm6ACU1hu8c8rIhsZDvTfg94om1Ecwz9P",
+  domain="db.fauna.com",
+  port=443,
+  scheme="https"
+)
 
 indexes = client.query(q.paginate(q.indexes()))
 
@@ -24,7 +30,7 @@ def login(request):
         password = request.POST.get("password")
 
         try:
-            user = client.query(q.get(q.match(q.index("users_index"), username)))
+            user = client.query(q.get(q.match(q.index("users_Index"), username)))
             if hashlib.sha512(password.encode()).hexdigest() == user["data"]["password"]:
                 request.session["user"] = {
                     "id": user["ref"].id(),
@@ -34,7 +40,7 @@ def login(request):
             else:
                 raise Exception()
         except:
-            messages.add_message(request, messages.INFO,"You have supplied an invalid login, please try again!", "danger")
+            messages.add_message(request, messages.INFO, "Invalid login, please try again!", "danger")
             return redirect("login")
     return render(request, "users/login.html")
 
