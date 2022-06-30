@@ -92,7 +92,7 @@ def createcv(request):
         job_3_end = request.POST.get("job_3_end")
         job_3_details = request.POST.get("job_3_details")
         try:
-            cv = client.query(q.get(q.match(q.index("cv_index"), username)))
+            cv = client.query(q.get(q.match(q.index("CV_index"), username)))
             quiz = client.query(q.update(q.ref(q.collection("CV_Info"), cv["ref"].id()),
                                          {
                                              "data":
@@ -146,8 +146,17 @@ def createcv(request):
             return redirect()  #Link to CV Page Here
     else:
             try:
-                CV_info = client.query(q.get(q.match(q.index("CV_index"), request.session["user"]["username"])))["data"]
-                context={"CV_info":CV_info}
+                CV_Info = client.query(q.get(q.match(q.index("CV_index"), request.session["user"]["username"])))["data"]
+                context={"CV_info": CV_Info}
                 return render(request,"users/createCV.html",context)
             except:
                 return render(request,"users/createCV.html")
+
+def CV(request):
+    try:
+        CV_Info = client.query(q.get(q.match(q.index("CV_index"), request.session["user"]["username"])))["data"]
+        context={"CV_Info":CV_Info}
+        return render(request, "CV.html", context)
+    except:
+        return render(request, "CV.html")
+
